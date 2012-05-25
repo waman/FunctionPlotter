@@ -1,7 +1,11 @@
 package org.waman.functionplotter
 
-import groovy.beans.Bindable
-
 class FunctionPlotterModel {
-   // @Bindable String propName
+
+    @Bindable String function
+
+    @Bindable double from
+    @Bindable double to
+    @Bindable double min
+    @Bindable double max
 }

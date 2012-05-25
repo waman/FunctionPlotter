@@ -1,24 +1,38 @@
 package org.waman.functionplotter
 
+import java.awt.Color
+import javax.swing.JOptionPane
+
 class FunctionPlotterController {
-    // these will be injected by Griffon
+
     def model
     def view
 
-    // void mvcGroupInit(Map args) {
-    //    // this method is called after model and view are injected
-    // }
+    def paintGraph = { event = null ->
+        def calc = new Dynamo(model.function)
+        def canvas = view.canvas
+        def g = canvas.graphics
+        int w = canvas.size.width
+        int h = canvas.size.height
 
-    // void mvcGroupDestroy() {
-    //    // this method is called when the group is destroyed
-    // }
+        g.color = new Color(255, 255, 150)
+        g.fillRect(0, 0, w, h)
+        g.color = Color.BLUE
 
-    /*
-        Remember that actions will be called outside of the UI thread
-        by default. You can change this setting of course.
-        Please read chapter 9 of the Griffon Guide to know more.
-       
-    def action = { evt = null ->
+        def (dx, dy) = [(model.to - model.from) / w, h / (model.max - model.min)]
+        int ceiling = h + model.min * dy
+        int lastY = calc.f(model.from) * dy
+        for(x in (1..w)){
+            int y = calc.f(model.from + x * dx) * dy
+            g.drawLine(x-1, ceiling - lastY, x, ceiling-y)
+            lastY = y
+        }
     }
-    */
+
+    def showAbout = { event = null ->
+        JOptionPane.showMessageDialog(app.windowManager.windows[0],
+            '''A Function Plotter
+that serves as a SwingBuilder example for
+Groovy in Action''')
+    }
 }
