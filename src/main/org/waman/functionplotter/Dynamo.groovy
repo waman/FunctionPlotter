@@ -5,12 +5,16 @@ class Dynamo{
     Script functionScript
 
     Dynamo(String function){
-        this.functionScript = SHELL.parse(
-"""import static java.lang.Math.*
-$function""")
+        def expr = """
+import static java.lang.Math.*
+import static org.apache.commons.math3.special.Beta.*
+import static org.apache.commons.math3.special.Gamma.*
+import static org.apache.commons.math3.special.Erf.*
+$function"""
+        this.functionScript = SHELL.parse(expr)
     }
 
-    Object f(x){
+    def f(x){
         functionScript.x = x
         return functionScript.run()
     }

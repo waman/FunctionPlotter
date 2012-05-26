@@ -15,7 +15,7 @@ class FunctionPlotterController {
         int w = canvas.size.width
         int h = canvas.size.height
 
-        g.color = new Color(255, 255, 150)
+        g.color = Color.WHITE
         g.fillRect(0, 0, w, h)
         g.color = Color.BLUE
 
