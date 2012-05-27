@@ -4,9 +4,15 @@ import java.awt.BorderLayout as BL
 import javax.swing.WindowConstants as WC
 import javax.swing.BorderFactory as BF
 
+JFrame.defaultLookAndFeelDecorated = true
+JDialog.defaultLookAndFeelDecorated = true
+
 actions{
     action(id:'paint', name:'Paint', mnemonic:'P', accelerator:'ctrl P',
         closure:controller.paintGraph)
+
+//    action(id:'showLaf', name:'show Look & Feel', mnemonic:'L', accelerator:'ctrl L',
+//        closure:controller.showLaf)
 
     action(id:'about', name:'About', mnemonic:'A', accelerator:'F1',
         closure:controller.showAbout)
@@ -19,12 +25,15 @@ application(title: 'FunctionPlotter',
   iconImages: [imageIcon('/griffon-icon-48x48.png').image,
                imageIcon('/griffon-icon-32x32.png').image,
                imageIcon('/griffon-icon-16x16.png').image]) {
-    menuBar(){
+    menuBar{
         menu(mnemonic:'A', 'Action'){
             menuItem(action:paint)
         }
+//        menu(mnemonic:'L', 'Look & Feel'){
+//            menuItem(action:showLaf)
+//        }
         glue()
-        menu(mnemonic:'H', 'H'){
+        menu(mnemonic:'H', 'Help'){
             menuItem(action:about)
         }
     }

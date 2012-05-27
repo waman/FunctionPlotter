@@ -15,5 +15,4 @@ mvcGroups {
         view       = 'org.waman.functionplotter.FunctionPlotterView'
         controller = 'org.waman.functionplotter.FunctionPlotterController'
     }
-
 }

@@ -5,3 +5,5 @@ root {
         view = '*'
     }
 }
+
+root.'LookandfeelSubstanceGriffonAddon'.addon=true
