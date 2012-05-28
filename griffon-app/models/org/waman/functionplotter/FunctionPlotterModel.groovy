@@ -3,6 +3,7 @@ package org.waman.functionplotter
 class FunctionPlotterModel {
 
     @Bindable String function
+    @Bindable int samples
 
     @Bindable double from
     @Bindable double to

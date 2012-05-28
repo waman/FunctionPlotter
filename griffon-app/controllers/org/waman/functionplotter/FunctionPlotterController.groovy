@@ -3,6 +3,7 @@ package org.waman.functionplotter
 import java.awt.Color
 import javax.swing.JOptionPane
 //import griffon.lookandfeel.LookAndFeelManager as LAF
+import org.jfree.data.general.DatasetUtilities
 
 class FunctionPlotterController {
 
@@ -10,26 +11,17 @@ class FunctionPlotterController {
     def view
 
     def paintGraph = { event = null ->
-        def calc = new Dynamo(model.function)
-
         edt{
-            def canvas = view.canvas
-            def g = canvas.graphics
-            int w = canvas.size.width
-            int h = canvas.size.height
+            def func = new ScriptFunction2D(model.function)
+            def dataset = DatasetUtilities.sampleFunction2D(func, model.from, model.to, model.samples, 'f(x)')
+            view.coordinate.chart.plot.dataset = dataset
+        }
+    }
 
-            g.color = Color.WHITE
-            g.fillRect(0, 0, w, h)
-            g.color = Color.BLUE
-
-            def (dx, dy) = [(model.to - model.from) / w, h / (model.max - model.min)]
-            int ceiling = h + model.min * dy
-            int lastY = calc.f(model.from) * dy
-            for(x in (1..w)){
-                int y = calc.f(model.from + x * dx) * dy
-                g.drawLine(x-1, ceiling - lastY, x, ceiling-y)
-                lastY = y
-            }
+    def adjustRange = { event = null ->
+        view.coordinate.chart.plot.plot.rangeAxis.with{
+            lowerBound = model.min
+            upperBound = model.max
         }
     }
 

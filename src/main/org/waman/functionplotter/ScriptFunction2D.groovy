@@ -1,10 +1,14 @@
-class Dynamo{
+package org.waman.functionplotter
+
+import org.jfree.data.function.Function2D
+
+class ScriptFunction2D implements Function2D{
 
     static final GroovyShell SHELL = new GroovyShell()
 
     Script functionScript
 
-    Dynamo(String function){
+    ScriptFunction2D(String function){
         def expr = """
 import static java.lang.Math.*
 import static org.apache.commons.math3.special.Beta.*
@@ -14,7 +18,7 @@ $function"""
         this.functionScript = SHELL.parse(expr)
     }
 
-    def f(x){
+    double getValue(double x){
         functionScript.x = x
         return functionScript.run()
     }

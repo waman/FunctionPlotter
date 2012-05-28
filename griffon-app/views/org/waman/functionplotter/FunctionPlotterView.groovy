@@ -19,7 +19,8 @@ actions{
 }
 
 application(title: 'FunctionPlotter',
-  location:[100, 100], size: [400, 400],
+//  location:[100, 100], size: [400, 400],
+  size:[800, 600], locationByPlatform:true,
   defaultCloseOperation:WC.EXIT_ON_CLOSE,
   iconImage: imageIcon('/griffon-icon-48x48.png').image,
   iconImages: [imageIcon('/griffon-icon-48x48.png').image,
@@ -38,35 +39,48 @@ application(title: 'FunctionPlotter',
         }
     }
 
-    panel(border:BF.createEmptyBorder(6, 6, 6, 6)){
-        borderLayout()
-        vbox(constraints:BL.NORTH){
-            hbox{
-                hstrut width:10
-                label 'f(x) = '
-                textField action:paint, columns:20, text:bind(target:model, 'function'), 'sin(x)'
-                button(action:paint)
-            }
+    panel(border:emptyBorder(6)){
+        migLayout()
+
+        panel(constraints:'north'){
+            migLayout columnConstraints:'[30][300]25[50][50]25[50]'
+
+            label 'f(x) = '
+            textField 'sin(x)', action: paint, columns: 30, text: bind(target: model, 'function')
+            label 'samples : '
+            textField '1000', action: paint, columns: 5, text: bind(target: model, 'samples', converter:{ it as int })
+            button action:paint
         }
-        vbox(constraints:BL.WEST){
-            labeledSpinner('max', 1d)
-            20.times{ vglue() }
-            labeledSpinner('min', -1d)
+
+        panel(border:titledBorder(title:'Function Plot')){
+            chart id:'coordinate', CoordinateChart.class
         }
-        vbox(constraints:BL.CENTER, border:BF.createTitledBorder('Function Plot')){
-            panel id:'canvas'
+
+        panel(constraints:'south'){
+            migLayout columnConstraints:'60[20][40]540[20][40]'
+
+            domainSpinner('from', 0d)
+            domainSpinner('to', 2d*Math.PI)
         }
-        hbox(constraints:BL.SOUTH){
-            hstrut width:10
-            labeledSpinner('from', 0d)
-            10.times{ hglue() }
-            labeledSpinner('to', 2d*Math.PI)
+
+        panel(constraints:BL.WEST){
+            migLayout layoutConstraints:'wrap 1', columnConstraints:'[40]', rowConstraints:'[10][20]350[10][20]'
+            rangeSpinner('max', 1d)
+            rangeSpinner('min', -1d)
         }
     }
 }
 
-def labeledSpinner(label, value){
+def domainSpinner(label, value){
     this.label(label)
-    spinner value:bind(target:model, label), stateChanged:controller.paintGraph,
-            model:spinnerNumberModel(value:value)
+    spinner(value:bind(target:model, label), 
+               stateChanged:controller.paintGraph, 
+               model:spinnerNumberModel(value:value))
+}
+
+def rangeSpinner(label, value){
+    this.label(label)
+    spinner(value:bind(target:model, label),
+               stateChanged:controller.adjustRange,
+               model:spinnerNumberModel(value:value))
 }
