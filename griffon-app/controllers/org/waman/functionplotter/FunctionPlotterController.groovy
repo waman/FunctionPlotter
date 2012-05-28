@@ -4,6 +4,7 @@ import java.awt.Color
 import javax.swing.JOptionPane
 //import griffon.lookandfeel.LookAndFeelManager as LAF
 import org.jfree.data.general.DatasetUtilities
+import com.thecoderscorner.groovychart.chart.ChartBuilder
 
 class FunctionPlotterController {
 
@@ -11,17 +12,44 @@ class FunctionPlotterController {
     def view
 
     def paintGraph = { event = null ->
+        def props = null
         edt{
-            def func = new ScriptFunction2D(model.function)
-            def dataset = DatasetUtilities.sampleFunction2D(func, model.from, model.to, model.samples, 'f(x)')
-            view.coordinate.chart.plot.dataset = dataset
+            props = model.copyProperties()
+        }
+
+        def data = createDataset(props)
+        def chart = createChart(CoordinateChart)
+        chart.plot.with{
+            dataset = data
+            rangeAxis.with{
+                lowerBound = props.min
+                upperBound = props.max
+            }
+        }
+
+        doLater{
+            view.coordinate.chart = chart
         }
     }
 
+    static createDataset(Map props){
+        def func = new ScriptFunction2D(props.function)
+        return DatasetUtilities.sampleFunction2D(func, props.from, props.to, props.samples, 'f(x)')
+    }
+
+    static createChart(Class chartScriptClass){
+        def chartScript = chartScriptClass.newInstance()
+        def builder = new ChartBuilder()
+        chartScript.metaClass.methodMissing = { String name, args -> builder.invokeMethod(name, args) }
+        return chartScript.run().chart
+    }
+
     def adjustRange = { event = null ->
-        view.coordinate.chart.plot.plot.rangeAxis.with{
-            lowerBound = model.min
-            upperBound = model.max
+        edt{
+            view.coordinate.chart.plot.plot.rangeAxis.with{
+                lowerBound = model.min
+                upperBound = model.max
+            }
         }
     }
 
