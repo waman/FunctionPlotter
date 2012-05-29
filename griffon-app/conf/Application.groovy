@@ -9,6 +9,13 @@ application {
     //frameClass = 'javax.swing.JFrame'
 }
 mvcGroups {
+    // MVC Group for "monolineFunction"
+    'monolineFunction' {
+        model      = 'org.waman.functionplotter.MonolineFunctionModel'
+        view       = 'org.waman.functionplotter.MonolineFunctionView'
+        controller = 'org.waman.functionplotter.MonolineFunctionController'
+    }
+
     // MVC Group for "functionPlotter"
     'functionPlotter' {
         model      = 'org.waman.functionplotter.FunctionPlotterModel'

@@ -10,31 +10,34 @@ class FunctionPlotterController {
 
     def model
     def view
+    def datasetService
 
-    def paintGraph = { event = null ->
-        def props = null
+    void mvcGroupInit(Map args) {
+        def func = buildMVCGroup('monolineFunction', 'f', name:'f(x)')
+        view.functionSection.add(func.view.content)
+    }
+
+    def paintAll = { event = null ->
+        def fdata = null, domain = null, range = null
         edt{
-            props = model.copyProperties()
+            fdata = app.models.f.createFunctionData()
+            domain = model.domain
+            range = model.range
         }
 
-        def data = createDataset(props)
+        def data = datasetService.createXYDataset(fdata, domain)
         def chart = createChart(CoordinateChart)
         chart.plot.with{
             dataset = data
             rangeAxis.with{
-                lowerBound = props.min
-                upperBound = props.max
+                lowerBound = range[0]
+                upperBound = range[1]
             }
         }
 
         doLater{
             view.coordinate.chart = chart
         }
-    }
-
-    static createDataset(Map props){
-        def func = new ScriptFunction2D(props.function)
-        return DatasetUtilities.sampleFunction2D(func, props.from, props.to, props.samples, 'f(x)')
     }
 
     static createChart(Class chartScriptClass){
