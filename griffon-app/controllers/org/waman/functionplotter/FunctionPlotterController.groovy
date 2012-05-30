@@ -4,6 +4,7 @@ import java.awt.Color
 import javax.swing.JOptionPane
 import griffon.lookandfeel.LookAndFeelManager as LAF
 import org.jfree.data.general.DatasetUtilities
+import org.jfree.chart.ChartUtilities
 import com.thecoderscorner.groovychart.chart.ChartBuilder
 
 class FunctionPlotterController {
@@ -11,6 +12,7 @@ class FunctionPlotterController {
     def model
     def view
     def datasetService
+    def fileService
 
     void mvcGroupInit(Map params){
         buildFunctionControl()
@@ -75,6 +77,23 @@ class FunctionPlotterController {
             view.coordinate.chart.plot.plot.rangeAxis.with{
                 lowerBound = model.min
                 upperBound = model.max
+            }
+        }
+    }
+
+    def saveChart = { event = null ->
+        edt{
+            fileService.saveFile(view.fc){ File file ->
+                def panel = view.coordinate
+                switch(file.name){
+                    case { it.endsWith('.png') }:
+                        ChartUtilities.saveChartAsPNG(file, panel.chart, panel.width, panel.height)
+                        break
+
+                    case { it.endsWith('.jpg') || it.endsWith('.jpeg') }:
+                        ChartUtilities.saveChartAsJPEG(file, panel.chart, panel.width, panel.height)
+                        break
+                }
             }
         }
     }

@@ -1,5 +1,8 @@
 package org.waman.functionplotter
 
+import javax.swing.JFileChooser
+import javax.swing.filechooser.FileNameExtensionFilter
+
 JFrame.defaultLookAndFeelDecorated = true
 JDialog.defaultLookAndFeelDecorated = true
 
@@ -10,12 +13,20 @@ actions{
     action(id:'addFunction', name:'Add Function', mnemonic:'F', accelerator:'ctrl F',
         closure:controller.addFunction)
 
+    action(id:'saveChart', name:'Save Chart', mnemonic:'S', accelerator:'ctrl S',
+        closure:controller.saveChart)
+
     action(id:'showLaf', name:'show Look & Feel', mnemonic:'L', accelerator:'ctrl L',
         closure:controller.showLaf)
 
     action(id:'showInfo', name:'Show Info', mnemonic:'I', accelerator:'F1',
         closure:controller.showInfo)
 }
+
+fileChooser(id:'fc', 
+            fileSelectionMode: JFileChooser.FILES_ONLY,
+            dialogTitle:'Save Chart as Image File',
+            fileFilter:new FileNameExtensionFilter('*.png, *.jpg, *.jpeg', 'png', 'jpg', 'jpeg'))
 
 application(title: 'FunctionPlotter',
 //  location:[100, 100], size: [400, 400],
@@ -26,6 +37,9 @@ application(title: 'FunctionPlotter',
                imageIcon('/griffon-icon-32x32.png').image,
                imageIcon('/griffon-icon-16x16.png').image]) {
     menuBar{
+        menu(mnemonic:'F', 'File'){
+            menuItem(action:saveChart)
+        }
         menu(mnemonic:'A', 'Action'){
             menuItem(action:paintAll)
             menuItem(action:addFunction)
