@@ -1,5 +1,4 @@
 FunctionPlotter is an application which plots univariate mathematical function f(x) as xy-graph y = f(x).
 
 The origin source of this application is an example of SwingBuilder usage in "Groovy in Action" (chapter 8),
-and FunctionPlotter reimplements this by Griffon framework,
-which is Grails-like GUI development framework (http://griffon.codehaus.org/).
+and FunctionPlotter reimplements this by Griffon framework, which is Grails-like GUI development framework (http://griffon.codehaus.org/).

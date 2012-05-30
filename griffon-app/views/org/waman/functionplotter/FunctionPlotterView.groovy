@@ -7,8 +7,11 @@ actions{
     action(id:'paintAll', name:'Paint All', mnemonic:'P', accelerator:'ctrl P',
         closure:controller.paintAll)
 
-//    action(id:'showLaf', name:'show Look & Feel', mnemonic:'L', accelerator:'ctrl L',
-//        closure:controller.showLaf)
+    action(id:'addFunction', name:'Add Function', mnemonic:'F', accelerator:'ctrl F',
+        closure:controller.addFunction)
+
+    action(id:'showLaf', name:'show Look & Feel', mnemonic:'L', accelerator:'ctrl L',
+        closure:controller.showLaf)
 
     action(id:'about', name:'About', mnemonic:'A', accelerator:'F1',
         closure:controller.showAbout)
@@ -25,10 +28,11 @@ application(title: 'FunctionPlotter',
     menuBar{
         menu(mnemonic:'A', 'Action'){
             menuItem(action:paintAll)
+            menuItem(action:addFunction)
         }
-//        menu(mnemonic:'L', 'Look & Feel'){
-//            menuItem(action:showLaf)
-//        }
+        menu(mnemonic:'L', 'Look & Feel'){
+            menuItem(action:showLaf)
+        }
         glue()
         menu(mnemonic:'H', 'Help'){
             menuItem(action:about)
@@ -47,7 +51,11 @@ application(title: 'FunctionPlotter',
                 }
             }
 
-            button action:paintAll
+            panel{
+                migLayout()
+                button action:addFunction
+                button action:paintAll
+            }
         }
 
         panel(id:'chartSection', border:titledBorder(title:'Function Plot')){
