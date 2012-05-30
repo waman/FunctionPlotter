@@ -87,12 +87,14 @@ class FunctionPlotterController {
         }
     }
 
-    def showAbout = { event = null ->
+    def showInfo = { evt = null ->
         edt{
-            JOptionPane.showMessageDialog(app.windowManager.windows[0],
-                '''A Function Plotter
-that serves as a SwingBuilder example for
-Groovy in Action''')
+            JOptionPane.showMessageDialog(app.windowManager.windows[0], """A Function Plotter
+that serves as a Griffon example
+for 'Groovy in Action'.
+Groovy Version : ${GroovySystem.version}
+Griffon Version : ${app.metadata['app.griffon.version']}
+Application Version : ${app.metadata['app.version']}""")
         }
     }
 }

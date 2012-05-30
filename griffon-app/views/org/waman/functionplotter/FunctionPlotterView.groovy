@@ -13,8 +13,8 @@ actions{
     action(id:'showLaf', name:'show Look & Feel', mnemonic:'L', accelerator:'ctrl L',
         closure:controller.showLaf)
 
-    action(id:'about', name:'About', mnemonic:'A', accelerator:'F1',
-        closure:controller.showAbout)
+    action(id:'showInfo', name:'Show Info', mnemonic:'I', accelerator:'F1',
+        closure:controller.showInfo)
 }
 
 application(title: 'FunctionPlotter',
@@ -35,7 +35,7 @@ application(title: 'FunctionPlotter',
         }
         glue()
         menu(mnemonic:'H', 'Help'){
-            menuItem(action:about)
+            menuItem(action:showInfo)
         }
     }
 
