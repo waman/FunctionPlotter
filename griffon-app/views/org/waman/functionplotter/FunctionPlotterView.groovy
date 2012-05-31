@@ -56,6 +56,14 @@ application(title: 'FunctionPlotter',
     panel(border:emptyBorder(6)){
         migLayout()
 
+        toolBar(constraints:'north'){
+            imageButton(paintAll, 'chart_curve_go')
+            //imageButton(clearChart, 'chart_curve_delete')
+            imageButton(saveChart, 'picture_save')
+            separator()
+            imageButton(addFunction, 'add')
+        }
+
         panel(id:'controlSection', constraints:'west', border:emptyBorder(3)){
             migLayout layoutConstraints:'wrap 1'
 
@@ -94,6 +102,10 @@ application(title: 'FunctionPlotter',
             }
         }
     }
+}
+
+def imageButton(action, String img){
+    this.button action:action, icon:silkIcon(img)
 }
 
 def domainSpinner(label, value){
