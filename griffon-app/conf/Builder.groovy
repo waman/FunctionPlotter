@@ -7,3 +7,5 @@ root {
 }
 
 root.'LookandfeelSubstanceGriffonAddon'.addon=true
+
+root.'LookandfeelGriffonAddon'.addon=true
